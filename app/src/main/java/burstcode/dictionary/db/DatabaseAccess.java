@@ -32,8 +32,11 @@ public class DatabaseAccess {
         return instance;
     }
 
-    public void open() {
+    public void openAnhViet() {
         this.databaseAnhViet = openHelperAnhViet.getWritableDatabase();
+    }
+
+    public void openVietAnh() {
         this.databaseVietAnh = openHelperVietAnh.getWritableDatabase();
     }
 
@@ -77,10 +80,11 @@ public class DatabaseAccess {
         cursorFavorite.moveToFirst();
         while (!cursorFavorite.isAfterLast()) {
             int index = cursorFavorite.getInt(cursor.getColumnIndex(KEY_WORD_ID));
+            cursor.moveToPosition(index);
             Word word = new Word();
             word.setId(index);
-            word.setWord(cursor.getString(index));
-            word.setContent(cursor.getString(index));
+            word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
+            word.setContent(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT)));
 
             list.add(word);
             cursorFavorite.moveToNext();
@@ -136,10 +140,11 @@ public class DatabaseAccess {
         cursorFavorite.moveToFirst();
         while (!cursorFavorite.isAfterLast()) {
             int index = cursorFavorite.getInt(cursor.getColumnIndex(KEY_WORD_ID));
+            cursor.moveToPosition(index);
             Word word = new Word();
             word.setId(index);
-            word.setWord(cursor.getString(index));
-            word.setContent(cursor.getString(index));
+            word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
+            word.setContent(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT)));
 
             list.add(word);
             cursorFavorite.moveToNext();

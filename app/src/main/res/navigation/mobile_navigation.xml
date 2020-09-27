@@ -3,23 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_eng_vie">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="burstcode.dictionary.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_eng_vie"
+        android:name="burstcode.dictionary.ui.eng_vie.EngVieFragment"
+        android:label="eng_vie"
+        tools:layout="@layout/fragment_eng_vie" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="burstcode.dictionary.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_vie_eng"
+        android:name="burstcode.dictionary.ui.vie_eng.VieEngFragment"
+        android:label="vie_eng"
+        tools:layout="@layout/fragment_vie_eng" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="burstcode.dictionary.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_favorite"
+        android:name="burstcode.dictionary.ui.favorite.FavoriteFragment"
+        android:label="favorite"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/nav_your_word"
+        android:name="burstcode.dictionary.ui.your_word.YourWordFragment"
+        android:label="fragment_your_word"
+        tools:layout="@layout/fragment_your_word" />
 </navigation>
