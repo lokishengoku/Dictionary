@@ -49,7 +49,9 @@ public class DatabaseAccess {
         }
     }
 
+    //---------------------------------------------
     //Data getter for anh_viet
+    //Favorite words getter
     public List<Word> getWordsAnhViet() {
         List<Word> list = new ArrayList<>();
         Cursor cursor = databaseAnhViet.rawQuery("SELECT * FROM anh_viet", null);
@@ -67,6 +69,7 @@ public class DatabaseAccess {
         return list;
     }
 
+    //Favorite words getter
     public List<Word> getFavoriteAnhViet() {
         List<Word> list = new ArrayList<>();
         Cursor cursor = databaseAnhViet.rawQuery("SELECT * FROM anh_viet", null);
@@ -87,6 +90,7 @@ public class DatabaseAccess {
         return list;
     }
 
+    //Your words getter
     public List<Word> getYourWordAnhViet() {
         List<Word> list = new ArrayList<>();
         Cursor cursor = databaseAnhViet.rawQuery("SELECT * FROM your_word", null);
@@ -104,7 +108,9 @@ public class DatabaseAccess {
         return list;
     }
 
+    //----------------------------------------------
     //Data getter for viet_anh
+    //Favorite words getter
     public List<Word> getWordsVietAnh() {
         List<Word> list = new ArrayList<>();
         Cursor cursor = databaseVietAnh.rawQuery("SELECT * FROM viet_anh", null);
@@ -122,6 +128,7 @@ public class DatabaseAccess {
         return list;
     }
 
+    //Favorite words getter
     public List<Word> getFavoriteVietAnh() {
         List<Word> list = new ArrayList<>();
         Cursor cursor = databaseVietAnh.rawQuery("SELECT * FROM viet_anh", null);
@@ -142,6 +149,7 @@ public class DatabaseAccess {
         return list;
     }
 
+    //Your words getter
     public List<Word> getYourWordVietAnh() {
         List<Word> list = new ArrayList<>();
         Cursor cursor = databaseVietAnh.rawQuery("SELECT * FROM your_word", null);
