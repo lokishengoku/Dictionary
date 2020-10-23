@@ -3,12 +3,15 @@ package burstcode.dictionary.db;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import burstcode.dictionary.MainActivity;
 import burstcode.dictionary.model.Word;
 
 public class DatabaseAccess {
@@ -63,13 +66,30 @@ public class DatabaseAccess {
             Word word = new Word();
             word.setId(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)));
             word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
-            word.setContent(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT)));
+            word.setContent(MainActivity.htmlConverter(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT))));
 
             list.add(word);
             cursor.moveToNext();
         }
         cursor.close();
         return list;
+    }
+
+    //test hashmap
+    public HashMap<Integer, Word> getMapEngVie() {
+        HashMap<Integer, Word> map = new HashMap<>();
+        Cursor cursor = databaseAnhViet.rawQuery("SELECT * FROM anh_viet", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Word word = new Word();
+            word.setId(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)));
+            word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
+            word.setContent(MainActivity.htmlConverter(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT))));
+            map.put(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) - 1, word);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return map;
     }
 
     //Favorite words getter
