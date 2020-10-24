@@ -3,7 +3,6 @@ package burstcode.dictionary.ui.eng_vie;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,13 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -26,19 +22,17 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import burstcode.dictionary.MainActivity;
 import burstcode.dictionary.R;
 import burstcode.dictionary.adapter.WordsAdapter;
-import burstcode.dictionary.db.DatabaseAccess;
 import burstcode.dictionary.model.Word;
+
 
 import static android.app.Activity.RESULT_OK;
 
 
 public class EngVieFragment extends Fragment {
-    private static final String TAG = "EngVieFragment";
     private static final int RECOGNIZER_RESULT = 1;
     private static WordsAdapter adapter;
     private static ProgressDialog pDialog;
@@ -70,7 +64,8 @@ public class EngVieFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new WordsAdapter(MainActivity.engVieWords, view.getContext(), true);
+        List<Word> words = new ArrayList<>(MainActivity.engVieWords);
+        adapter = new WordsAdapter(words, view.getContext(), MainActivity.ENG_VIE);
         RecyclerView recyclerView = view.findViewById(R.id.engVieRecView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -105,15 +100,12 @@ public class EngVieFragment extends Fragment {
             }
         });
 
-        btnMicro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-                speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech to Text");
-                startActivityForResult(speechIntent, RECOGNIZER_RESULT);
-            }
+        btnMicro.setOnClickListener(view1 -> {
+            Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+            speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech to Text");
+            startActivityForResult(speechIntent, RECOGNIZER_RESULT);
         });
     }
 
@@ -130,7 +122,8 @@ public class EngVieFragment extends Fragment {
 
 
     public static void updateData() {
-        adapter.setWords(MainActivity.engVieWords);
+        List<Word> words = new ArrayList<>(MainActivity.engVieWords);
+        adapter.setWords(words);
         showDialog = false;
         pDialog.dismiss();
     }

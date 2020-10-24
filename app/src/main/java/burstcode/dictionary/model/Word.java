@@ -1,9 +1,27 @@
 package burstcode.dictionary.model;
 
-public class Word {
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import java.io.Serializable;
+
+@Entity
+public class Word implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    private int pid;
+
+    @ColumnInfo(name = "id")
     private int id;
+
+    @ColumnInfo(name = "word")
     private String word;
+
+    @ColumnInfo(name = "content")
     private String content;
+
+    @ColumnInfo(name = "isEng")
+    private boolean isEng;
 
     public Word() {
 
@@ -31,5 +49,21 @@ public class Word {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isEng() {
+        return isEng;
+    }
+
+    public void setEng(boolean eng) {
+        isEng = eng;
+    }
+
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
     }
 }

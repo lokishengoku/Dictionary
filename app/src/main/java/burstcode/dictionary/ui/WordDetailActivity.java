@@ -5,20 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Locale;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Locale;
+import java.util.Objects;
+
+import burstcode.dictionary.MainActivity;
 import burstcode.dictionary.R;
+import burstcode.dictionary.model.Word;
+import burstcode.dictionary.ui.favorite.FavoriteFragment;
 
 public class WordDetailActivity extends AppCompatActivity {
 
-    private TextView txtDetailWord;
-    private TextView txtDetailContent;
-    private ImageView btnSpeaker;
-    private boolean isEngVie;
+    private FloatingActionButton btnAddToFavorite;
+    private int target;
+    private boolean isFavorite = false;
 
     private TextToSpeech textToSpeech;
 
@@ -27,40 +31,62 @@ public class WordDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_detail);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Word Detail");
 
-        txtDetailWord = findViewById(R.id.txtDetailWord);
-        txtDetailContent = findViewById(R.id.txtDetailContent);
+        TextView txtDetailWord = findViewById(R.id.txtDetailWord);
+        TextView txtDetailContent = findViewById(R.id.txtDetailContent);
         final Intent intent = getIntent();
-        txtDetailWord.setText(intent.getStringExtra("word"));
-        txtDetailContent.setText(intent.getStringExtra("content"));
-        isEngVie = intent.getBooleanExtra("isEngVie", true);
+        Word word = (Word) intent.getSerializableExtra("word");
+        assert word != null;
+        txtDetailWord.setText(word.getWord());
+        txtDetailContent.setText(word.getContent());
+        target = intent.getIntExtra("target", 1);
 
-        btnSpeaker = findViewById(R.id.btnSpeaker);
+        ImageView btnSpeaker = findViewById(R.id.btnSpeaker);
         textToSpeech = new TextToSpeech(getApplicationContext(),
-                new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int i) {
-                        if (i == TextToSpeech.SUCCESS) {
-                            if (isEngVie) {
-                                int lang = textToSpeech.setLanguage(Locale.ENGLISH);
-                            } else {
-                                int lang = textToSpeech.setLanguage(new Locale("vi", "VN"));
-                            }
-
+                i -> {
+                    if (i == TextToSpeech.SUCCESS) {
+                        if (word.isEng()) {
+                            textToSpeech.setLanguage(Locale.ENGLISH);
+                        } else {
+                            textToSpeech.setLanguage(new Locale("vi", "VN"));
                         }
+
                     }
                 });
-        btnSpeaker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int speech = textToSpeech.speak(intent.getStringExtra("word"),
-                        TextToSpeech.QUEUE_FLUSH,
-                        null);
+        btnSpeaker.setOnClickListener(view -> textToSpeech.speak(word.getWord(),
+                TextToSpeech.QUEUE_FLUSH,
+                null));
+
+        btnAddToFavorite = findViewById(R.id.btnAddToFavorite);
+        for (Word w :
+                MainActivity.favoriteWords) {
+            if (w.getWord().equals(word.getWord())) {
+                isFavorite = true;
+                break;
+            }
+        }
+        if (isFavorite) {
+            btnAddToFavorite.setImageResource(R.drawable.ic_baseline_favorite_24);
+        } else {
+            btnAddToFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+        }
+        btnAddToFavorite.setOnClickListener(view -> {
+            if (isFavorite) {
+                btnAddToFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                MainActivity.favoriteWords.remove(word);
+                MainActivity.removeFavorite(word);
+                if (target == MainActivity.FAVORITE) {
+                    FavoriteFragment.updateUI();
+                    finish();
+                }
+            } else {
+                btnAddToFavorite.setImageResource(R.drawable.ic_baseline_favorite_24);
+                MainActivity.favoriteWords.add(word);
+                MainActivity.insertFavorite(word);
             }
         });
-
 
     }
 

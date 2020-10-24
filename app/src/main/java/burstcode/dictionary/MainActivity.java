@@ -1,19 +1,17 @@
 package burstcode.dictionary;
 
 import android.Manifest;
-import android.app.ProgressDialog;
+
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
-import android.view.View;
+
 import android.view.Menu;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -31,16 +29,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import burstcode.dictionary.db.DatabaseAccess;
+import burstcode.dictionary.db.FavoriteWordsRepository;
 import burstcode.dictionary.model.Word;
 import burstcode.dictionary.ui.eng_vie.EngVieFragment;
+import burstcode.dictionary.ui.vie_eng.VieEngFragment;
 
 
 public class MainActivity extends AppCompatActivity {
     public static final Integer RecordAudioRequestCode = 1;
+    public static final Integer ENG_VIE = 1;
+    public static final Integer VIE_ENG = 2;
+    public static final Integer FAVORITE = 3;
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    public static List<Word> engVieWords = new ArrayList<>(), vieEngWords = new ArrayList<>();
+    private static FavoriteWordsRepository favoriteWordsRepository;
+    public static List<Word> engVieWords = new ArrayList<>(),
+            vieEngWords = new ArrayList<>(),
+            favoriteWords = new ArrayList<>();
 
 
     @Override
@@ -49,14 +55,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -72,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             checkPermission();
         }
+
 
         asyncRun();
     }
@@ -114,10 +113,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void asyncRun() {
-        new GetWords().execute();
+        new GetEngVieWords().execute();
+        new GetVieEngWords().execute();
+        new GetFavoriteWords().execute();
     }
 
-    public class GetWords extends AsyncTask<Void, Void, Void> {
+    public class GetEngVieWords extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -142,5 +143,58 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
             EngVieFragment.updateData();
         }
+    }
+
+    public class GetVieEngWords extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplication());
+            databaseAccess.openVietAnh();
+            vieEngWords = databaseAccess.getWordsVietAnh();
+            databaseAccess.closeVietAnh();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            VieEngFragment.updateData(getApplication());
+        }
+    }
+
+    public class GetFavoriteWords extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            favoriteWordsRepository = new FavoriteWordsRepository(getApplication());
+            List<Word> dbWords = favoriteWordsRepository.getWords();
+            favoriteWords.addAll(dbWords);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+        }
+    }
+
+    public static void removeFavorite(Word word) {
+        favoriteWordsRepository.deleteWord(word);
+    }
+
+    public static void insertFavorite(Word word) {
+        favoriteWordsRepository.insertWords(word);
     }
 }

@@ -30,7 +30,7 @@
                 android:layout_marginRight="15dp"
                 android:textSize="20sp"
                 android:padding="10dp"
-                android:hint="Search Your Word"
+                android:hint="Search..."
                 android:layout_centerInParent="true" />
 
             <ImageView

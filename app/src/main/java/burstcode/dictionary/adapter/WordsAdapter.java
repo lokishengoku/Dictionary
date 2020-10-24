@@ -20,13 +20,13 @@ import burstcode.dictionary.ui.WordDetailActivity;
 
 public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> {
     private Context mContext;
-    private boolean isEngVie;
+    private int target;
     private List<Word> words;
     private List<Word> allWords;
 
-    public WordsAdapter(List<Word> words, Context context, boolean isEngVie) {
+    public WordsAdapter(List<Word> words, Context context, int target) {
         this.mContext = context;
-        this.isEngVie = isEngVie;
+        this.target = target;
         this.words = words;
         this.allWords = new ArrayList<>(words);
     }
@@ -48,15 +48,11 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.txtWord.setText(words.get(position).getWord());
-        holder.itemParents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, WordDetailActivity.class);
-                intent.putExtra("word", words.get(position).getWord());
-                intent.putExtra("content", words.get(position).getContent());
-                intent.putExtra("isEngVie", isEngVie);
-                mContext.startActivity(intent);
-            }
+        holder.itemParents.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, WordDetailActivity.class);
+            intent.putExtra("word", words.get(position));
+            intent.putExtra("target", target);
+            mContext.startActivity(intent);
         });
     }
 
@@ -65,7 +61,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
         return words.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtWord;
         private CardView itemParents;
 
