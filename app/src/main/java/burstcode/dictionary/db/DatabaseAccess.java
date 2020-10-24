@@ -63,34 +63,22 @@ public class DatabaseAccess {
         Cursor cursor = databaseAnhViet.rawQuery("SELECT * FROM anh_viet", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Word word = new Word();
-            word.setId(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)));
-            word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
-            word.setContent(MainActivity.htmlConverter(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT))));
+            if (cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 58 || cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 59
+                    || cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 60) {
+            } else {
+                Word word = new Word();
+                word.setId(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)));
+                word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
+                word.setContent(MainActivity.htmlConverter(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT))));
 
-            list.add(word);
+                list.add(word);
+            }
             cursor.moveToNext();
         }
         cursor.close();
         return list;
     }
 
-    //test hashmap
-    public HashMap<Integer, Word> getMapEngVie() {
-        HashMap<Integer, Word> map = new HashMap<>();
-        Cursor cursor = databaseAnhViet.rawQuery("SELECT * FROM anh_viet", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Word word = new Word();
-            word.setId(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)));
-            word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
-            word.setContent(MainActivity.htmlConverter(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT))));
-            map.put(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) - 1, word);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return map;
-    }
 
     //Favorite words getter
     public List<Word> getFavoriteAnhViet() {
@@ -140,12 +128,16 @@ public class DatabaseAccess {
         Cursor cursor = databaseVietAnh.rawQuery("SELECT * FROM viet_anh", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Word word = new Word();
-            word.setId(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)));
-            word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
-            word.setContent(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT)));
+            if (cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 1 || cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 2
+                    || cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 3) {
+            } else {
+                Word word = new Word();
+                word.setId(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)));
+                word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
+                word.setContent(MainActivity.htmlConverter(cursor.getString(cursor.getColumnIndex(KEY_WORD_CONTENT))));
 
-            list.add(word);
+                list.add(word);
+            }
             cursor.moveToNext();
         }
         cursor.close();

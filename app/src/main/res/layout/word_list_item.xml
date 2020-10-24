@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/list_item_parents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
@@ -16,27 +17,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp">
-
             <TextView
+                android:layout_margin="16dp"
                 android:id="@+id/txtWord"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hentai"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Biến thái" />
-        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

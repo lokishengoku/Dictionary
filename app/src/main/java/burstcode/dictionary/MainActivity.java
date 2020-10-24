@@ -1,5 +1,8 @@
 package burstcode.dictionary;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,11 +10,15 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,17 +27,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import burstcode.dictionary.db.DatabaseAccess;
 import burstcode.dictionary.model.Word;
+import burstcode.dictionary.ui.eng_vie.EngVieFragment;
 
 
 public class MainActivity extends AppCompatActivity {
+    public static final Integer RecordAudioRequestCode = 1;
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    public static List<Word> engVieWords, vieEngWords;
+    public static List<Word> engVieWords = new ArrayList<>(), vieEngWords = new ArrayList<>();
 
 
     @Override
@@ -59,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            checkPermission();
+        }
 
+        asyncRun();
     }
 
     @Override
@@ -81,6 +95,52 @@ public class MainActivity extends AppCompatActivity {
             return Html.fromHtml(str, Html.FROM_HTML_MODE_COMPACT).toString();
         } else {
             return Html.fromHtml(str).toString();
+        }
+    }
+
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RecordAudioRequestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == RecordAudioRequestCode && grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void asyncRun() {
+        new GetWords().execute();
+    }
+
+    public class GetWords extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplication());
+            databaseAccess.openAnhViet();
+            engVieWords = databaseAccess.getWordsAnhViet();
+            databaseAccess.closeAnhViet();
+
+//            databaseAccess.openVietAnh();
+//            vieEngWords = databaseAccess.getWordsVietAnh();
+//            databaseAccess.closeVietAnh();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            EngVieFragment.updateData();
         }
     }
 }

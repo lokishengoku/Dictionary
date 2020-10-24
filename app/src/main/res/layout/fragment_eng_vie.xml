@@ -10,13 +10,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <SearchView
-            android:id="@+id/searchViewEngVie"
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_marginVertical="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/searchEngVie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/btnMicro"
+                android:layout_marginRight="15dp"
+                android:textSize="20sp"
+                android:padding="10dp"
+                android:hint="Search Your Word"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:id="@+id/btnMicro"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_baseline_mic_24"
+                android:backgroundTint="#F9F8FA"
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/engVieRecView"
@@ -25,7 +51,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchViewEngVie"
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
