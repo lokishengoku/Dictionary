@@ -70,7 +70,7 @@ public class EngVieFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new WordsAdapter(MainActivity.engVieWords, view.getContext());
+        adapter = new WordsAdapter(MainActivity.engVieWords, view.getContext(), true);
         RecyclerView recyclerView = view.findViewById(R.id.engVieRecView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -110,6 +110,7 @@ public class EngVieFragment extends Fragment {
             public void onClick(View view) {
                 Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
                 speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech to Text");
                 startActivityForResult(speechIntent, RECOGNIZER_RESULT);
             }
@@ -125,12 +126,6 @@ public class EngVieFragment extends Fragment {
             edtSearch.setText(matches.get(0).toLowerCase());
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
     }
 
 

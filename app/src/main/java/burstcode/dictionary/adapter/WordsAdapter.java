@@ -20,11 +20,13 @@ import burstcode.dictionary.ui.WordDetailActivity;
 
 public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> {
     private Context mContext;
+    private boolean isEngVie;
     private List<Word> words;
     private List<Word> allWords;
 
-    public WordsAdapter(List<Word> words, Context context) {
+    public WordsAdapter(List<Word> words, Context context, boolean isEngVie) {
         this.mContext = context;
+        this.isEngVie = isEngVie;
         this.words = words;
         this.allWords = new ArrayList<>(words);
     }
@@ -52,6 +54,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
                 Intent intent = new Intent(mContext, WordDetailActivity.class);
                 intent.putExtra("word", words.get(position).getWord());
                 intent.putExtra("content", words.get(position).getContent());
+                intent.putExtra("isEngVie", isEngVie);
                 mContext.startActivity(intent);
             }
         });
