@@ -1,5 +1,6 @@
 package burstcode.dictionary.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,9 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import burstcode.dictionary.MainActivity;
 import burstcode.dictionary.R;
 import burstcode.dictionary.model.Word;
 import burstcode.dictionary.ui.WordDetailActivity;
+import burstcode.dictionary.ui.favorite.FavoriteFragment;
 
 public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> {
     private Context mContext;
@@ -88,4 +91,6 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
             notifyDataSetChanged();
         }
     }
+
+
 }

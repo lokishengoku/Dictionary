@@ -1,5 +1,6 @@
 package burstcode.dictionary.ui.favorite;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,7 +21,10 @@ import burstcode.dictionary.R;
 import burstcode.dictionary.adapter.WordsAdapter;
 import burstcode.dictionary.model.Word;
 
+import static android.app.Activity.RESULT_OK;
+
 public class FavoriteFragment extends Fragment {
+    public static int REQUEST_FAVORITE = 6;
     private RecyclerView recyclerView;
     private static WordsAdapter adapter;
 
@@ -52,6 +56,6 @@ public class FavoriteFragment extends Fragment {
     }
 
     public static void updateUI() {
-        adapter.notifyDataSetChanged();
+        adapter.setWords(MainActivity.favoriteWords);
     }
 }

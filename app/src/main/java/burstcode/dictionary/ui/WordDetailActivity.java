@@ -2,9 +2,11 @@ package burstcode.dictionary.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -75,12 +77,10 @@ public class WordDetailActivity extends AppCompatActivity {
         btnAddToFavorite.setOnClickListener(view -> {
             if (isFavorite) {
                 btnAddToFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                MainActivity.favoriteWords.remove(word);
                 MainActivity.removeFavorite(word);
-                if (target == MainActivity.FAVORITE) {
-                    FavoriteFragment.updateUI();
-                    finish();
-                }
+                FavoriteFragment.updateUI();
+                finish();
+
             } else {
                 btnAddToFavorite.setImageResource(R.drawable.ic_baseline_favorite_24);
                 MainActivity.favoriteWords.add(word);
@@ -92,6 +92,7 @@ public class WordDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        setResult(Activity.RESULT_CANCELED);
         finish();
         return super.onSupportNavigateUp();
     }

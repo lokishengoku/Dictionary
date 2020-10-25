@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static final Integer ENG_VIE = 1;
     public static final Integer VIE_ENG = 2;
     public static final Integer FAVORITE = 3;
+    public static final Integer YOUR_WORDS = 4;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -192,6 +193,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static void removeFavorite(Word word) {
         favoriteWordsRepository.deleteWord(word);
+        for (int i = 0; i < favoriteWords.size(); i++) {
+            if (word.getWord().equals(favoriteWords.get(i).getWord())) {
+                favoriteWords.remove(i);
+                break;
+            }
+        }
     }
 
     public static void insertFavorite(Word word) {

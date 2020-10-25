@@ -17,7 +17,7 @@ public interface WordDao {
     @Insert
     void insertAll(Word... words);
 
-    @Delete
-    void delete(Word word);
+    @Query("DELETE FROM word WHERE word.word=:wordX")
+    void delete(String wordX);
 
 }

@@ -75,9 +75,9 @@ public class VieEngFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         adapter.onSearch("");
 
+
+        pDialog = new ProgressDialog(view.getContext());
         if (showDialog) {
-            if (pDialog == null)
-                pDialog = new ProgressDialog(view.getContext());
             pDialog.setMessage("Vui lòng chờ một lát...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -130,9 +130,9 @@ public class VieEngFragment extends Fragment {
         if (finishLoad) {
             words = new ArrayList<>(MainActivity.vieEngWords);
             adapter.setWords(words);
-            showDialog = false;
             pDialog.dismiss();
         }
+        showDialog = false;
     }
 
 }

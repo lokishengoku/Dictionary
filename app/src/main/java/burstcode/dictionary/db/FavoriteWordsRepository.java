@@ -55,7 +55,7 @@ public class FavoriteWordsRepository {
 
         @Override
         protected Void doInBackground(Word... words) {
-            wordDao.delete(words[0]);
+            wordDao.delete(words[0].getWord());
             return null;
         }
     }
