@@ -1,6 +1,7 @@
 package burstcode.dictionary.ui.favorite;
 
-import android.content.Intent;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,23 +10,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
 
 import burstcode.dictionary.MainActivity;
 import burstcode.dictionary.R;
 import burstcode.dictionary.adapter.WordsAdapter;
-import burstcode.dictionary.model.Word;
 
-import static android.app.Activity.RESULT_OK;
+import static burstcode.dictionary.MainActivity.toolbar;
+
 
 public class FavoriteFragment extends Fragment {
-    public static int REQUEST_FAVORITE = 6;
-    private RecyclerView recyclerView;
+    @SuppressLint("StaticFieldLeak")
     private static WordsAdapter adapter;
 
     public FavoriteFragment() {
@@ -48,7 +46,9 @@ public class FavoriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.recViewFavorite);
+        toolbar.setTitle("Favorite");
+
+        RecyclerView recyclerView = view.findViewById(R.id.recViewFavorite);
         adapter = new WordsAdapter(MainActivity.favoriteWords, getContext(), MainActivity.FAVORITE);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

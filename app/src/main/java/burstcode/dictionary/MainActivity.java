@@ -2,6 +2,7 @@ package burstcode.dictionary;
 
 import android.Manifest;
 
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
     private static FavoriteWordsRepository favoriteWordsRepository;
+    @SuppressLint("StaticFieldLeak")
+    public static Toolbar toolbar;
     public static List<Word> engVieWords = new ArrayList<>(),
             vieEngWords = new ArrayList<>(),
             favoriteWords = new ArrayList<>();
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -119,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         new GetFavoriteWords().execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class GetEngVieWords extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -146,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class GetVieEngWords extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -165,10 +170,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            VieEngFragment.updateData(getApplication());
+            VieEngFragment.updateData();
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class GetFavoriteWords extends AsyncTask<Void, Void, Void> {
 
         @Override

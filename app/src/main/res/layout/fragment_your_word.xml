@@ -22,8 +22,11 @@
                 android:id="@+id/txtCurrentWord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Random word"
+                android:layout_marginEnd="16dp"
+                android:text="@string/random_word"
+                android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/swEngVie"
@@ -38,14 +41,15 @@
                 android:src="@drawable/mic"
                 app:layout_constraintEnd_toEndOf="@+id/txtCurrentWord"
                 app:layout_constraintStart_toStartOf="@+id/txtCurrentWord"
-                app:layout_constraintTop_toBottomOf="@+id/txtCurrentWord" />
+                app:layout_constraintTop_toBottomOf="@+id/txtCurrentWord"
+                android:contentDescription="@string/todo" />
 
             <TextView
                 android:id="@+id/txtPoint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="50 points"
+                android:text="@string/_50_points"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/btnMicro2"
@@ -57,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Your Words"
+                android:text="@string/your_words"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="@+id/txtPoint"
                 app:layout_constraintStart_toStartOf="@+id/txtPoint"
@@ -69,23 +73,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:checked="true"
-                android:text="English"
+                android:text="@string/english"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recViewYourWords"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:nestedScrollingEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ywContainer"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_marginTop="16dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recViewYourWords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="320dp" />
+        </ScrollView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

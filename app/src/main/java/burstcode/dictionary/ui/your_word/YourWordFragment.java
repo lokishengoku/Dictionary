@@ -15,7 +15,6 @@ import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -24,7 +23,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import burstcode.dictionary.MainActivity;
 import burstcode.dictionary.R;
@@ -33,14 +31,13 @@ import burstcode.dictionary.gesture.OnSwipeTouchListener;
 import burstcode.dictionary.model.Word;
 
 import static android.app.Activity.RESULT_OK;
+import static burstcode.dictionary.MainActivity.toolbar;
 
 
 public class YourWordFragment extends Fragment {
     private static final int RECOGNIZER_RESULT = 1;
-    private ConstraintLayout ywContainer;
     private TextView txtCurrentWord, txtPoint;
-    private ImageView btnMicro2;
-    private RecyclerView recyclerView;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch swEngVie;
     private Word word;
     private WordsAdapter adapter;
@@ -69,17 +66,19 @@ public class YourWordFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ywContainer = view.findViewById(R.id.ywContainer);
+
+        toolbar.setTitle("Your words");
+
+        ConstraintLayout ywContainer = view.findViewById(R.id.ywContainer);
         txtCurrentWord = view.findViewById(R.id.txtCurrentWord);
         txtPoint = view.findViewById(R.id.txtPoint);
-        btnMicro2 = view.findViewById(R.id.btnMicro2);
-        recyclerView = view.findViewById(R.id.recViewYourWords);
+        ImageView btnMicro2 = view.findViewById(R.id.btnMicro2);
+        RecyclerView recyclerView = view.findViewById(R.id.recViewYourWords);
         swEngVie = view.findViewById(R.id.swEngVie);
 
         adapter = new WordsAdapter(words, getContext(), MainActivity.YOUR_WORDS);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setNestedScrollingEnabled(false);
 
         txtPoint.setText(point + " Points");
         word = getRandomWord();
@@ -119,22 +118,20 @@ public class YourWordFragment extends Fragment {
                 Toast.makeText(getContext(), "Correct", Toast.LENGTH_SHORT).show();
                 addPoint();
                 addToYourWords(word);
-                word = getRandomWord();
-                txtCurrentWord.setText(word.getWord());
             } else {
                 Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
-                word = getRandomWord();
-                txtCurrentWord.setText(word.getWord());
             }
+            word = getRandomWord();
+            txtCurrentWord.setText(word.getWord());
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     private Word getRandomWord() {
         if (swEngVie.isChecked()) {
-            return MainActivity.engVieWords.get(getRandomNumberInRange(0, MainActivity.engVieWords.size() - 1));
+            return MainActivity.engVieWords.get(getRandomNumberInRange(MainActivity.engVieWords.size() - 1));
         } else {
-            return MainActivity.vieEngWords.get(getRandomNumberInRange(0, MainActivity.vieEngWords.size() - 1));
+            return MainActivity.vieEngWords.get(getRandomNumberInRange(MainActivity.vieEngWords.size() - 1));
         }
     }
 
@@ -151,13 +148,13 @@ public class YourWordFragment extends Fragment {
         }
     }
 
-    private static int getRandomNumberInRange(int min, int max) {
+    private static int getRandomNumberInRange(int max) {
 
-        if (min >= max) {
+        if (0 >= max) {
             throw new IllegalArgumentException("max must be greater than min");
         }
 
         Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
+        return r.nextInt((max) + 1);
     }
 }

@@ -8,12 +8,11 @@ import java.util.List;
 import burstcode.dictionary.model.Word;
 
 public class FavoriteWordsRepository {
-    private WordDatabase wordDatabase;
     private WordDao wordDao;
     private static List<Word> words;
 
     public FavoriteWordsRepository(Application application) {
-        wordDatabase = WordDatabase.getInstance(application);
+        WordDatabase wordDatabase = WordDatabase.getInstance(application);
         wordDao = wordDatabase.wordDao();
         words = wordDao.getAllWords();
     }

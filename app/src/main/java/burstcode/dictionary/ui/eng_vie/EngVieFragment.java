@@ -30,16 +30,17 @@ import burstcode.dictionary.model.Word;
 
 
 import static android.app.Activity.RESULT_OK;
+import static burstcode.dictionary.MainActivity.toolbar;
 
 
 public class EngVieFragment extends Fragment {
     private static final int RECOGNIZER_RESULT = 1;
+    @SuppressLint("StaticFieldLeak")
     private static WordsAdapter adapter;
     private static ProgressDialog pDialog;
     public static boolean showDialog = true;
 
     private EditText edtSearch;
-    private ImageView btnMicro;
 
     public EngVieFragment() {
         // Required empty public constructor
@@ -64,6 +65,9 @@ public class EngVieFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        toolbar.setTitle("English - Vietnamese");
+
+
         List<Word> words = new ArrayList<>(MainActivity.engVieWords);
         adapter = new WordsAdapter(words, view.getContext(), MainActivity.ENG_VIE);
         RecyclerView recyclerView = view.findViewById(R.id.engVieRecView);
@@ -81,7 +85,7 @@ public class EngVieFragment extends Fragment {
         }
 
         edtSearch = view.findViewById(R.id.searchEngVie);
-        btnMicro = view.findViewById(R.id.btnMicro);
+        ImageView btnMicro = view.findViewById(R.id.btnMicro);
 
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override

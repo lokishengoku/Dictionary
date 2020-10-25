@@ -26,12 +26,14 @@
                 android:id="@+id/searchEngVie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/btnMicro"
-                android:layout_marginRight="15dp"
+                android:layout_toStartOf="@id/btnMicro"
+                android:layout_marginEnd="15dp"
                 android:textSize="20sp"
                 android:padding="10dp"
-                android:hint="Search..."
-                android:layout_centerInParent="true" />
+                android:hint="@string/search"
+                android:layout_centerInParent="true"
+                android:autofillHints=""
+                android:inputType="text" />
 
             <ImageView
                 android:id="@+id/btnMicro"
@@ -39,8 +41,10 @@
                 android:layout_height="40dp"
                 android:src="@drawable/ic_baseline_mic_24"
                 android:backgroundTint="#F9F8FA"
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true" />
+                android:paddingEnd="10dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/micro"
+                tools:ignore="RtlSymmetry" />
         </RelativeLayout>
 
 

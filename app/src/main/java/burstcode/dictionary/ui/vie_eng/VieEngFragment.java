@@ -2,7 +2,6 @@ package burstcode.dictionary.ui.vie_eng;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -30,9 +29,11 @@ import burstcode.dictionary.adapter.WordsAdapter;
 import burstcode.dictionary.model.Word;
 
 import static android.app.Activity.RESULT_OK;
+import static burstcode.dictionary.MainActivity.toolbar;
 
 public class VieEngFragment extends Fragment {
     private static final int RECOGNIZER_RESULT = 1;
+    @SuppressLint("StaticFieldLeak")
     private static WordsAdapter adapter;
     private static ProgressDialog pDialog;
     public static boolean showDialog = true;
@@ -40,7 +41,6 @@ public class VieEngFragment extends Fragment {
     private static boolean finishLoad = false;
 
     private EditText edtSearch;
-    private ImageView btnMicro;
 
     public VieEngFragment() {
         // Required empty public constructor
@@ -65,6 +65,8 @@ public class VieEngFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        toolbar.setTitle("Vietnamese - English");
         finishLoad = true;
 
         words = new ArrayList<>(MainActivity.vieEngWords);
@@ -86,7 +88,7 @@ public class VieEngFragment extends Fragment {
         }
 
         edtSearch = view.findViewById(R.id.searchVieEng);
-        btnMicro = view.findViewById(R.id.btnMicro1);
+        ImageView btnMicro = view.findViewById(R.id.btnMicro1);
 
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -126,7 +128,7 @@ public class VieEngFragment extends Fragment {
     }
 
 
-    public static void updateData(Context context) {
+    public static void updateData() {
         if (finishLoad) {
             words = new ArrayList<>(MainActivity.vieEngWords);
             adapter.setWords(words);

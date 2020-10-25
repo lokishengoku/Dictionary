@@ -13,4 +13,19 @@
     <string name="menu_your_word">Your Words</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="burstcode">BurstCode</string>
+    <string name="dthuanle_20_gmail_com">dthuanle.20@gmail.com</string>
+    <string name="your_words">Your Words</string>
+    <string name="english">English</string>
+    <string name="_50_points">50 points</string>
+    <string name="random_word">Random word</string>
+    <string name="todo">TODO</string>
+    <string name="bien_thai">Bien thai</string>
+    <string name="word">- WORD:</string>
+    <string name="meaning">- MEANING:</string>
+    <string name="speaker">SPEAKER</string>
+    <string name="search">Search...</string>
+    <string name="t_m_ki_m">Tìm kiếm...</string>
+    <string name="micro">MICRO</string>
+    <string name="hentai">Hentai</string>
 </resources>

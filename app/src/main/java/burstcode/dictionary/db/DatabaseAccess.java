@@ -3,12 +3,10 @@ package burstcode.dictionary.db;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import burstcode.dictionary.MainActivity;
@@ -63,9 +61,8 @@ public class DatabaseAccess {
         Cursor cursor = databaseAnhViet.rawQuery("SELECT * FROM anh_viet", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            if (cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 58 || cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 59
-                    || cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 60) {
-            } else {
+            if (cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) != 58 && cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) != 59
+                    && cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) != 60) {
                 Word word = new Word();
                 word.setId(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)));
                 word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));
@@ -89,9 +86,8 @@ public class DatabaseAccess {
         Cursor cursor = databaseVietAnh.rawQuery("SELECT * FROM viet_anh", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            if (cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 1 || cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 2
-                    || cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) == 3) {
-            } else {
+            if (cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) != 1 && cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) != 2
+                    && cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)) != 3) {
                 Word word = new Word();
                 word.setId(cursor.getInt(cursor.getColumnIndex(KEY_WORD_ID)));
                 word.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD_WORD)));

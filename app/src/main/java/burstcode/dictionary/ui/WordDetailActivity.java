@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +22,6 @@ import burstcode.dictionary.ui.favorite.FavoriteFragment;
 public class WordDetailActivity extends AppCompatActivity {
 
     private FloatingActionButton btnAddToFavorite;
-    private int target;
     private boolean isFavorite = false;
 
     private TextToSpeech textToSpeech;
@@ -43,7 +41,6 @@ public class WordDetailActivity extends AppCompatActivity {
         assert word != null;
         txtDetailWord.setText(word.getWord());
         txtDetailContent.setText(word.getContent());
-        target = intent.getIntExtra("target", 1);
 
         ImageView btnSpeaker = findViewById(R.id.btnSpeaker);
         textToSpeech = new TextToSpeech(getApplicationContext(),
